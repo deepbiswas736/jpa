@@ -1,6 +1,7 @@
 package com.deep.spring.jpa.model;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +21,13 @@ import lombok.Setter;
 @Getter @Setter
 public class User {
 	
+	
+	@Override
+	public String toString() {
+		return "User [userID=" + userID + ", userName=" + userName + ", email=" + email + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", age=" + age + ", Address=" + addresses + "]";
+	}
+
 	public Long getUserID() {
 		return userID;
 	}
@@ -68,12 +76,12 @@ public class User {
 		this.age = age;
 	}
 
-	public List<Address> getAddress() {
-		return Address;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public void setAddress(List<Address> address) {
-		Address = address;
+	public void setAddresses(List<Address> address) {
+		addresses = address;
 	}
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,10 +103,10 @@ public class User {
 	@Column(name = "AGE")
 	private Integer age;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="ADDRESS", joinColumns={@JoinColumn(referencedColumnName="USER_ID")}
+	@ManyToMany(fetch = FetchType.LAZY , cascade=CascadeType.PERSIST)
+	@JoinTable(name="USER_ADDRESS", joinColumns={@JoinColumn(referencedColumnName="USER_ID")}
     , inverseJoinColumns={@JoinColumn(referencedColumnName="ADDRESS_ID")})
-	private List<Address> Address;
+	private List<Address> addresses;
 
 	public User(String userName, String email, String firstName, String lastName, Integer age) {
 		super();
@@ -107,6 +115,10 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
+	}
+	
+	public User() {
+		
 	}
 	
 	

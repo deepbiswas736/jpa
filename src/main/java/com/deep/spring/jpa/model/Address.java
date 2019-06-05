@@ -1,10 +1,13 @@
 package com.deep.spring.jpa.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -36,6 +39,17 @@ public class Address {
 	
 	@Column(name = "POSTAL_CODE")
 	private String postalCode;
+	
+	@ManyToMany(mappedBy = "addresses")
+	List<User> users;
+	
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 	public Address(String addressLine1, String addressLine2, String city, String state, String country,
 			String postalCode) {
@@ -104,5 +118,8 @@ public class Address {
 		this.postalCode = postalCode;
 	}
 	
+	public Address() {
+		
+	}
 	
 }
